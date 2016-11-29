@@ -195,6 +195,10 @@ my $coolingScaleFactor = 1;
 # flag to attenuate radiation over a Jeans length
 my $coolingMapUseJeansLength = 0;
 
+# flag to include cosmic ray heating at linear fraction
+# of MW CR rate - necessary for Jeans length runs
+my $coolingMapCRFraction = 0.0;
+
 # decimal precision for temperature in cooling maps
 my $temperaturePrecision = 6;
 
@@ -925,6 +929,16 @@ sub readParameterFile {
 	  die "coolingMapUseJeansLength must be set to 0 or 1 on line $lineNumber of $parameterFile.\n"
 	      unless (($value eq '0') || ($value eq '1'));
 	  $coolingMapUseJeansLength = $value;
+      }
+
+      # get cosmic ray fraction flag
+      elsif ($line =~ /coolingMapCRFraction(\z|[\s\=])/i) {
+          my (undef,$value) = split /=/, $line, 2;
+          (undef,$value) = splot " ", $line, 2 unless (defined($value));
+          $value =~ s/^\s+//;
+          die "coolingMapCRFraction must be a positive (linear) value on line $lineNumber of $parameterFile.\n"
+              unless (($value eq '0') || ($value eq '1'));
+          $coolingMapCRFraction = $value;
       }
 
       ######################################
@@ -2012,6 +2026,10 @@ sub coolingMapMode {
            #push @runCommands, "stop depth $jeans_length linear\n";
        }
 
+        if ($coolingMapCRFraction > 0){
+            push @runCommands, "cosmic rays background $coolingMapCRFraction linear\n";
+        }
+
 	# add either constant temperature or coronal equilibrium command
 	if ($coronalEquilibrium >= 0) {
 	    delete $runCommands[$coronalEquilibrium];
@@ -2023,27 +2041,11 @@ sub coolingMapMode {
 
 	#push @runCommands, "print zone 1\n";
 	push @runCommands, "stop temperature 9.99 linear\n";
-	#push @runCommands, "save ionization rates hydrogen \"hm_2011_test/hydrogen.txt\"\n";
-	#push @runCommands, "save ionization rates helium \"hm_2011_test/helium.txt\"\n";
-	#push @runCommands, "save ionization rates carbon \"hm_2011_test/carbon.txt\"\n";
-	#push @runCommands, "save ionization rates calcium \"hm_2011_test/calcium.txt\"\n";
-
-	#push @runCommands, "save opacity figure \"hm_2011_test/opacity_figure\"\n";
-	#push @runCommands, "save optical depths \"hm_2011_test/optical_depths.dat\"\n";
-	#push @runCommands, "save total opacity \"hm_2011_test/total_opacity.dat\"\n";
-	#push @runCommands, "stop optical depth 10 linear at 1.0 Ryd\n";
-	#push @runCommands, "set nend 10000\n";
-	#push @runCommands, "set failures 100 map\n";
-	#push @runCommands, "set drmax 1.0E17 linear\n";
-        push @runCommands, "cosmic rays background 0.1 linear\n";
 
 	# add cooling map mode commands
-	#push @runCommands, "save dr \"hm_2011_test/dr.txt\"\n";
 	push @runCommands, "save cooling file = \"$tempCoolingFile\"\n";
 	push @runCommands, "save heating file = \"$tempHeatingFile\"\n";
-	#push @runCommands, "save heating file = \"hm_2011_test/heating_file_test_$temperature.dat\"\n";
-	#push @runCommands, "punch last cooling file = \"$tempCoolingFile\"\n";
-	#push @runCommands, "punch last heating file = \"$tempHeatingFile\"\n";
+
 	push @runCommands, "punch last abundance file = \"$tempAbundanceFile\"\n";
 	push @runCommands, "punch last ionization means file = \"$tempIonizationFile\"\n";
 	push @runCommands, "punch last physical conditions file = \"$tempPhysicalConditionsFile\"\n";

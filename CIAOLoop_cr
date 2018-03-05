@@ -2041,6 +2041,7 @@ sub coolingMapMode {
 
 	#push @runCommands, "print zone 1\n";
 	push @runCommands, "stop temperature 9.99 linear\n";
+        push @runCommands, "stop optical depth 10 linear at 1.0 Ryd\n";
 
 	# add cooling map mode commands
 	push @runCommands, "save cooling file = \"$tempCoolingFile\"\n";

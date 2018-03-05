@@ -19,7 +19,7 @@ exitOnCrash             = 1
 outputFilePrefix        = hm_2011_sh
 
 # output directory
-outputDir               = /home/emerick/work/cloudy_tables/HM_2011/hm_2011_sh_test_cr/
+outputDir               = /home/emerick/work/cloudy_tables/HM_2011/hm_2011_sh_noxray_cr/
 
 # index of first run
 runStartIndex           = 1
@@ -85,10 +85,10 @@ command metals -3 log
 #######################################################
 ############# Commands to be looped over ##############
 
-#loop [hden] (-6;2;0.5)
+loop [hden] (-10;2;0.5)
 
-loop [hden] 0.5
+#loop [hden] 0.5
 
-#loop [init "/home/emerick/work/cloudy_tables/HM_2011/HM11_UVB/z_*.out"] 0.0000e+00 1.2202e-01 2.5893e-01 4.1254e-01 5.8489e-01 7.7828e-01 9.9526e-01 1.2387e+00 1.5119e+00 1.8184e+00 2.1623e+00 2.5481e+00 2.9811e+00 3.4668e+00 4.0119e+00 4.6234e+00 5.3096e+00 6.0795e+00 6.9433e+00 7.9125e+00 9.0000e+00 1.0220e+01 1.1589e+01 1.3125e+01 1.4849e+01
+loop [init "/home/emerick/work/cloudy_tables/HM_2011/HM11_UVB/z_*.out"] 0.0000e+00 1.2202e-01 2.5893e-01 4.1254e-01 5.8489e-01 7.7828e-01 9.9526e-01 1.2387e+00 1.5119e+00 1.8184e+00 2.1623e+00 2.5481e+00 2.9811e+00 3.4668e+00 4.0119e+00 4.6234e+00 5.3096e+00 6.0795e+00 6.9433e+00 7.9125e+00 9.0000e+00 1.0220e+01 1.1589e+01 1.3125e+01 1.4849e+01
 
-loop [init "/home/emerick/work/cloudy_tables/HM_2011/HM11_UVB/z_*.out"] 0.0000e+00
+#loop [init "/home/emerick/work/cloudy_tables/HM_2011/HM11_UVB/z_*.out"] 0.0000e+00

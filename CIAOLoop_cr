@@ -934,10 +934,10 @@ sub readParameterFile {
       # get cosmic ray fraction flag
       elsif ($line =~ /coolingMapCRFraction(\z|[\s\=])/i) {
           my (undef,$value) = split /=/, $line, 2;
-          (undef,$value) = splot " ", $line, 2 unless (defined($value));
+          (undef,$value) = split " ", $line, 2 unless (defined($value));
           $value =~ s/^\s+//;
           die "coolingMapCRFraction must be a positive (linear) value on line $lineNumber of $parameterFile.\n"
-              unless (($value eq '0') || ($value eq '1'));
+              unless (($value gt '0'));
           $coolingMapCRFraction = $value;
       }
 

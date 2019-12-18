@@ -13,14 +13,22 @@ metal_name = 'fg_2011_shield_combined/fg_2011_shield_combined'
 mf_name    = 'fg_2011_shield_combined_mf/fg_2011_shield_combined_mf'
 output     = 'fg_2011_shield_metal_only/fg_2011_shield_metal_only'
 
+metal_name = 'fg_2011_ot/fg_2011_ot'
+mf_name    = 'fg_2011_ot_mf/fg_2011_ot_mf'
+output = 'fg_2011_ot_metal_only/fg_2011_ot_metal_only'
+
 
 runs = np.arange(rmin,rmax,1)
 
 
 for i in runs:
     print i
-    metals = np.genfromtxt(metal_name + '_run%i.dat'%(i), names = True)
-    mf     = np.genfromtxt(mf_name + '_run%i.dat'%(i), names = True)
+    try:
+        metals = np.genfromtxt(metal_name + '_run%i.dat'%(i), names = True)
+        mf     = np.genfromtxt(mf_name + '_run%i.dat'%(i), names = True)
+    except:
+        metals = np.genfromtxt(metal_name + '_run%i.dat'%(i), names = True, skip_header = 14)
+        mf     = np.genfromtxt(mf_name + '_run%i.dat'%(i), names = True, skip_header = 14)
 
     subtracted = metals
 
